@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Personal Data</title>
+    
+</head>
+<body>
+    <header>Identification</header>
+    
+    <fieldset>
+        <legend> Personal Data: </legend>
+        <label for="name"> Name: </label><input type="text" id="name" required autofocus placeholder="Name" pattern="[a-zA-Z]{1,}" title="Please enter your name">
+
+        <label for="familyname"> Family Name: </label><input type="text" id="familyname" required autofocus placeholder="Name" pattern="[a-zA-Z]{1,}" title="Please enter your family name">
+        <p></p>
+        <label for="email">
+            Email :<input type="text" name="email" id="email" required placeholder="Email Adress" pattern="[a-zA-Z]{3,}@[a-zA]">
+            <p></p>
+            <label for="id"> Id of verified document :<input type="text" name="email" id="id" required placeholder="Ex. Onfido Passport" pattern="[a-zA-Z]{25,25}">
+            <p></p>
+            
+                <button id="button3">
+                    Got to payment!
+                </button> 
+   
+           </fieldset>
+    <script>
+        $('#button3').click(function () {
+            value.idcheck($('name', 'family', 'email').val());
+
+        });
+        {% if 'a'== 1 %}
+        
+    </script>
+
+    
+
+</body>
+</html>
