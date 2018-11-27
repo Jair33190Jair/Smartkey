@@ -1,5 +1,7 @@
 pragma solidity ^0.4.19;
 
+pragma solidity ^0.4.19;
+
 contract Room {
     address public seller;
     address public buyer;
@@ -7,6 +9,8 @@ contract Room {
     uint public arrival;
     uint public departure;
     string title;
+    string public keyCheckin;
+    string public keyCheckout;
     string name;
     string nameid;
     string familynameid;
@@ -31,6 +35,8 @@ contract Room {
     function Room () {
         //Seller name?
         seller = msg.sender;
+        keyCheckin = '32170fas90f709sdg092893dj';
+        keyCheckout ='daf709sa7f9f89f7sv70fdv09z';
         
         //Room number
         roomnumb = "103";
