@@ -1,0 +1,76 @@
+pragma solidity ^0.4.19;
+
+contract Room {
+    address public seller;
+    address public buyer;
+    string public roomnumb;
+    uint public arrival;
+    uint public departure;
+    string title;
+    string name;
+    string nameid;
+    string familynameid;
+    string familyname;
+    string email;
+    string emailid;
+    uint public a;
+    
+    
+    uint256 public price;
+    uint public value;
+    
+    
+
+    function getValue() constant returns(uint){
+        return value;
+    }
+    function setValue(uint newValue){
+        value=newValue;
+    }
+    
+    function Room () {
+        //Seller name?
+        seller = msg.sender;
+        
+        //Room number
+        roomnumb = "103";
+        
+        //price in wei = 0.5 ETH = 90 CHF
+        price = 500000000000000000;
+    }    
+    function avaliabilitycheck() payable public {
+        //Assign conditions
+        require(arrival == 0x0);
+        require(departure == 0x0);
+
+        
+    }
+     function idcheck(string name,string nameid) returns (bool){ 
+        return keccak256(name) == keccak256(nameid);
+        if(true){
+            a=1;
+        }
+        if(false){
+            a=0;
+        }
+   }
+        
+    
+        
+    function rentroom() payable public {
+        //Assign conditions
+        //an hotel has been selected
+        require(seller != 0x0);
+        //room is avaliable
+        require(buyer == 0x0);
+        //confirm buyer
+        require(msg.sender != seller);
+        //
+        buyer = msg.sender;
+        //Valid trx.
+        seller.transfer(msg.value);
+        
+    }
+        
+    
+}
