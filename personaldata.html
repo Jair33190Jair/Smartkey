@@ -7,8 +7,34 @@
     
 </head>
 <body>
+
+    <head>
+        <title>Testing QR code</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            function generateBarCode() {
+                var nric = $('#text').val();
+                var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
+                $('#barcode').attr('src', url);
+            }
+        </script>
+    </head>
+ 
+
+    <input id="text" type="text"
+           value="NRIC or Work Permit" style="Width:20%"
+           onblur='generateBarCode();' />
+
+    <img id='barcode'
+         src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100"
+         alt=""
+         title="HELLO"
+         width="50"
+         height="50" />
+
+
     <header>Identification</header>
-    
+
     <fieldset>
         <legend> Personal Data: </legend>
         <label for="name"> Name: </label><input type="text" id="name" required autofocus placeholder="Name" pattern="[a-zA-Z]{1,}" title="Please enter your name">
@@ -18,24 +44,28 @@
         <label for="email">
             Email :<input type="text" name="email" id="email" required placeholder="Email Adress" pattern="[a-zA-Z]{3,}@[a-zA]">
             <p></p>
-            <label for="id"> Id of verified document :<input type="text" name="email" id="id" required placeholder="Ex. Onfido Passport" pattern="[a-zA-Z]{25,25}">
-            <p></p>
-            
-                <button id="button3">
-                    Got to payment!
-                </button> 
-   
-           </fieldset>
+            <label for="id">
+                Id of verified document :<input type="text" name="email" id="id" required placeholder="Ex. Onfido Passport" pattern="[a-zA-Z]{25,25}">
+                <p></p>
+
+                <a href=payment.html>
+                    <button id="button3">
+                        Go to payment!
+                    </button>
+                </a>
+
+</fieldset>
+
     <script>
         $('#button3').click(function () {
             value.idcheck($('name', 'family', 'email').val());
 
         });
-        {% if 'a'== 1 %}
-        
+        {% if 'a' == 1 %}
+
     </script>
 
-    
+
 
 </body>
 </html>

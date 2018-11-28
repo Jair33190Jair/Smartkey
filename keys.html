@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Testing QR code</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        function generateBarCode() {
+            var nric = $('#text').val();
+            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
+            $('#barcode').attr('src', url);
+        }
+    </script>
+    <title>Testing QR code2</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        function generateBarCode2() {
+            var nric = $('#text2').val();
+            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
+            $('#barcode2').attr('src', url);
+        }
+    </script>
+</head>
+<body>
+    <label for="Access Key"> Access Key: </label>
+    <p>
+    </p>
+    <input id="text" type="text"
+           value="Hash Code" style="Width:20%"
+           onblur='generateBarCode();' />
+    <p></p>
+
+    <img id='barcode'
+         src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100"
+         alt=""
+         title="HELLO"
+         width="250"
+         height="250" />
+    <p></p>
+
+    <p></p>
+    <p></p>
+    <label for="departure"> Check-Out Key: </label>
+    <p>
+    </p>
+
+    <input id="text2" type="text"
+           value="Hash Code" style="Width:20%"
+           onblur='generateBarCode2();' />
+
+
+
+
+
+    <p></p>
+    <img id='barcode2'
+         src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100"
+         alt="218dfds"
+         title="HELLO"
+         width="250"
+         height="250" />
+    <p></p>
+
+    <button id="button4">
+        Send to blockchain
+    </button>
+    </head>
+    <body>
+        <script>
+            if (typeof (web3) !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+            }
+            else {
+                web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+            }
+
+
+            web3.eth.defaultAccount = web3.eth.accounts[0];
+
+            var Room = web3.eth.contract([
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "barcode",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "seller",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "a",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "barcode21",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": false,
+                    "inputs": [
+                        {
+                            "name": "name",
+                            "type": "string"
+                        },
+                        {
+                            "name": "nameid",
+                            "type": "string"
+                        }
+                    ],
+                    "name": "idcheck",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bool"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "arrival",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "getValue",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "value",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": false,
+                    "inputs": [
+                        {
+                            "name": "newValue",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setValue",
+                    "outputs": [],
+                    "payable": false,
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "buyer",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": false,
+                    "inputs": [],
+                    "name": "rentroom",
+                    "outputs": [],
+                    "payable": true,
+                    "stateMutability": "payable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "keyCheckin",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "departure",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": false,
+                    "inputs": [
+                        {
+                            "name": "barcode",
+                            "type": "string"
+                        },
+                        {
+                            "name": "barcode2",
+                            "type": "string"
+                        }
+                    ],
+                    "name": "setValue2",
+                    "outputs": [],
+                    "payable": false,
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "price",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": false,
+                    "inputs": [],
+                    "name": "avaliabilitycheck",
+                    "outputs": [],
+                    "payable": true,
+                    "stateMutability": "payable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "roomnumb",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "keyCheckout",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "payable": false,
+                    "stateMutability": "nonpayable",
+                    "type": "constructor"
+                }
+            ]);
+
+            var value = Room.at("0x4e78349f5f42ea34df75075bec6dbdaad6ca1890");
+
+            value.setValue2(function (error, result) {
+                if (!error) {
+                    $('#value').html(result.toString());
+                }
+                else {
+                    console.log(error);
+                }
+            });
+            $('#button4').click(function () {
+                value.setValue2($('#text').val());
+
+            });
+            $('#button4').click(function () {
+                value.setValue3($('#text2').val());
+
+            });
+        </script>
+    </body>
+</html>
