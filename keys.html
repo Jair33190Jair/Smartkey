@@ -1,8 +1,15 @@
 ﻿<!DOCTYPE html>
-
+<!--COMMENT: This part of the code is in charge of generating the random key, the corresponding QR Codes. and finally encrypt the it and send it to the blockchain-->
+<!--COMMENT: Once again web3 is used to communicate with the smart contract-->
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<script src="./node_modules/web3/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+<!--COMMENT: Library used for encoding the access key-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 <head>
-    <title>Testing QR code</title>
+    <!--COMMENT: Functions in charge of generating the QR codes-->
+    <title>Access key</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript">
         function generateBarCode() {
@@ -11,7 +18,7 @@
             $('#barcode').attr('src', url);
         }
     </script>
-    <title>Testing QR code2</title>
+    <title>Check-Out key</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript">
         function generateBarCode2() {
@@ -19,14 +26,44 @@
             var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
             $('#barcode2').attr('src', url);
         }
+
+
+        // COMMENT: Generate the random access key
+        function generaterandomkey() {
+            var accesskey = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < 5; i++)
+                accesskey += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return accesskey;
+        }
+        console.log(generaterandomkey());
+
+        // COMMENT: Encrypt my key
+        var encryptedkey = CryptoJS.AES.encrypt(barcode, "password");
+
+        // COMMENT: The decription is called by the door in order to know the value of the access key.
+
+        var decrypted = CryptoJS.AES.decrypt(encryptedkey, "password");
+
+        document.getElementById("encryptedacceskey").innerHTML = encryptedkey;
+        document.getElementById("decryptedkey").innerHTML = decrypted;
+
+        //       document.getElementById("originalkey").innerHTML = decrypted.toString(CryptoJS.enc.Utf8);
+
+
+
     </script>
 </head>
+
+<!-- COMMENT: Again reference to the smart contract throught the ABI-->
 <body>
     <label for="Access Key"> Access Key: </label>
     <p>
     </p>
     <input id="text" type="text"
-           value="Hash Code" style="Width:20%"
+           value=decryptedkey style="Width:20%"
            onblur='generateBarCode();' />
     <p></p>
 
@@ -45,7 +82,7 @@
     </p>
 
     <input id="text2" type="text"
-           value="Hash Code" style="Width:20%"
+           value=encryptedkey style="Width:20%"
            onblur='generateBarCode2();' />
 
 
@@ -60,7 +97,9 @@
          width="250"
          height="250" />
     <p></p>
-
+    <!-- COMMENT: Again reference to the smart contract through web3 with the ABI-->
+    
+    <!-- COMMENT: Send encryptedkey to the Blockchain-->
     <button id="button4">
         Send to blockchain
     </button>
@@ -78,20 +117,6 @@
             web3.eth.defaultAccount = web3.eth.accounts[0];
 
             var Room = web3.eth.contract([
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "barcode",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
                 {
                     "constant": true,
                     "inputs": [],
@@ -118,43 +143,6 @@
                     ],
                     "payable": false,
                     "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "barcode21",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "name": "nameid",
-                            "type": "string"
-                        }
-                    ],
-                    "name": "idcheck",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -193,6 +181,34 @@
                         {
                             "name": "",
                             "type": "uint256"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "encryptedkeyblockchain",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "encryptedkey",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
                         }
                     ],
                     "payable": false,
@@ -239,11 +255,11 @@
                 {
                     "constant": true,
                     "inputs": [],
-                    "name": "keyCheckin",
+                    "name": "departure",
                     "outputs": [
                         {
                             "name": "",
-                            "type": "string"
+                            "type": "uint256"
                         }
                     ],
                     "payable": false,
@@ -253,7 +269,7 @@
                 {
                     "constant": true,
                     "inputs": [],
-                    "name": "departure",
+                    "name": "price",
                     "outputs": [
                         {
                             "name": "",
@@ -268,15 +284,11 @@
                     "constant": false,
                     "inputs": [
                         {
-                            "name": "barcode",
-                            "type": "string"
-                        },
-                        {
-                            "name": "barcode2",
+                            "name": "encryptedkey",
                             "type": "string"
                         }
                     ],
-                    "name": "setValue2",
+                    "name": "setValue3",
                     "outputs": [],
                     "payable": false,
                     "stateMutability": "nonpayable",
@@ -285,11 +297,11 @@
                 {
                     "constant": true,
                     "inputs": [],
-                    "name": "price",
+                    "name": "getValue2",
                     "outputs": [
                         {
                             "name": "",
-                            "type": "uint256"
+                            "type": "string"
                         }
                     ],
                     "payable": false,
@@ -320,20 +332,6 @@
                     "type": "function"
                 },
                 {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "keyCheckout",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
                     "inputs": [],
                     "payable": false,
                     "stateMutability": "nonpayable",
@@ -341,9 +339,9 @@
                 }
             ]);
 
-            var value = Room.at("0x4e78349f5f42ea34df75075bec6dbdaad6ca1890");
+            var value = Room.at("0x98ef0062cf40e0d88d55ff0ef42f5101a4c0e970");
 
-            value.setValue2(function (error, result) {
+            value.setValue3(function (error, result) {
                 if (!error) {
                     $('#value').html(result.toString());
                 }
@@ -351,12 +349,14 @@
                     console.log(error);
                 }
             });
-            $('#button4').click(function () {
-                value.setValue2($('#text').val());
+                          //          $('#button4').click(function () {
+                           //             value.setValue2($('#text').val());
 
-            });
+                                    });
+
+  // COMMENT: Finally we can send our encrypted key to the Blockchain!
             $('#button4').click(function () {
-                value.setValue3($('#text2').val());
+                value.setValue3($('#encryptedkey').val());
 
             });
         </script>

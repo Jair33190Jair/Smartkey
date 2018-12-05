@@ -1,42 +1,44 @@
 ﻿<html>
-    <head>
-        <script src="./node_modules/web3/dist/web3.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <meta charset="utf-8">
-        <title> Smartkey </title>
+<head>
+    <!-- COMMENT: Reference to the libraries used for the connection with the smartcontract-->
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <meta charset="utf-8">
+    <title> Smartkey </title>
 
-    </head>
-    <body>
-        
+</head>
+<body>
 
-        <div>
-            <header><center> Smartkey</center></header>
+    <!--COMMENT: This is a room booking interface, which retrives the information of the guest-->
+    <div>
+        <header><center> Smartkey</center></header>
         <section>
             <form action="personaldata.html" method="get"></form>
-        <br>
-        <fieldset>
-            <legend> Booking: </legend>
-            <label for="arrival"> Arrival: </label><input type="date" id="date" min="2018-01-10" required autofocus placeholder="2018-01-10" title="Date of arrival">
-            <p></p>
-            <label for="departure"> Departure: </label><input type="date" id="departure" min="2018-01-10" required autofocus placeholder="2018-01-10" title="Date of departure">
-            <p></p>
-            <label> Guests: </label>
-            <select name="Number of guests" required>
+            <br>
+            <fieldset>
+                <legend> Booking: </legend>
+                <label for="arrival"> Arrival: </label><input type="date" id="date" min="2018-01-10" required autofocus placeholder="2018-01-10" title="Date of arrival">
+                <p></p>
+                <label for="departure"> Departure: </label><input type="date" id="departure" min="2018-01-10" required autofocus placeholder="2018-01-10" title="Date of departure">
+                <p></p>
                 <label> Guests: </label>
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <p></p>
-            <a href=personaldata.html>
-                <button id="button2">
-                    Check avaliability
-                </button> 
-            </a>
-            
-        </fieldset>
+                <select name="Number of guests" required>
+                    <label> Guests: </label>
+                    <option value=""></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <p></p>
+                <!--COMMENT: Button that links to the next page-->
+                <a href=personaldata.html>
+                    <button id="button2">
+                        Check avaliability
+                    </button>
+                </a>
+
+            </fieldset>
 
         </section>
 
@@ -49,321 +51,288 @@
 
 
 
+
+
+
+
+        <h1 id="value">Smartkey</h1>
+
+        <label>Value</label>
+        <input id="input">
+        <button id="button">Update value</button>
+
+    </div>
+
+
+
+    <!--COMMENT: This section of the code is in charge of
+        set the connection with the smartcontract through web3-->
+    
+    <script>
+        // COMMENT: Here the javascript code begins //
+
+
+        if (typeof (web3) !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        }
+        else {
+            web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+        }
+
+        // COMMENT: This long strange code is the Application Binary Interface (ABI) of
+        // our smart contract, it describes the functions and variables of it//
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+([
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "seller",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "a",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "arrival",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getValue",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "value",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "encryptedkeyblockchain",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "encryptedkey",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "newValue",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setValue",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "buyer",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "rentroom",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "departure",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "price",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "encryptedkey",
+                        "type": "string"
+                    }
+                ],
+                "name": "setValue3",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getValue2",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "avaliabilitycheck",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "roomnumb",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            }
+        ]);
+        // COMMENT: now I basically call the smart contract with its correspondant ID//
+        var value = Room.at("0x98ef0062cf40e0d88d55ff0ef42f5101a4c0e970");
         
-
-
-
-            <h1 id="value">Smartkey</h1>
-
-            <label>Value</label>
-            <input id="input">
-            <button id="button">Update value</button>
-
-        </div>
-
-
-
-
-        <script>
-            if (typeof (web3) !== 'undefined') {
-                web3 = new Web3(web3.currentProvider);
+        value.getValue(function (error, result) {
+            if (!error) {
+                $('#value').html(result.toString());
             }
             else {
-                web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+                console.log(error);
             }
+        });
+        //COMMENT: If button is pressed, the smart contract checks on the blockchain if 
+        //room is avaliable, so that the booking can proceed
+        //COMMENT: The check is made by the function "avaliabilitycheck" in the smart contract//
+        $('#button2').click(function () {
+            value.avaliabilitycheck($('#arrival', '#departure').val());
 
+        });
 
-            web3.eth.defaultAccount = web3.eth.accounts[0];
+        $('#button').click(function () {
+            value.setValue($('#input').val());
 
-            var Room = web3.eth.contract([
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "barcode",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "seller",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "a",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "barcode21",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "name": "nameid",
-                            "type": "string"
-                        }
-                    ],
-                    "name": "idcheck",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "arrival",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "getValue",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "value",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "newValue",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "setValue",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "buyer",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "rentroom",
-                    "outputs": [],
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "keyCheckin",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "departure",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "barcode",
-                            "type": "string"
-                        },
-                        {
-                            "name": "barcode2",
-                            "type": "string"
-                        }
-                    ],
-                    "name": "setValue2",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "price",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "avaliabilitycheck",
-                    "outputs": [],
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "roomnumb",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "keyCheckout",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                }
-            ]);
+        });
+        $('#button3').click(function () {
+            value.avaliabilitycheck($('#arrival', '#departure').val());
+        });
+    </script>
 
-            var value = Room.at("0x4e78349f5f42ea34df75075bec6dbdaad6ca1890");
-
-            value.getValue(function (error, result) {
-                if (!error) {
-                    $('#value').html(result.toString());
-                }
-                else {
-                    console.log(error);
-                }
-            });
-            $('#button2').click(function () {
-                value.avaliabilitycheck($('#arrival', '#departure').val());
-
-            });
-
-            $('#button').click(function () {
-                value.setValue($('#input').val());
-
-            });
-            $('#button3').click(function () {
-                value.avaliabilitycheck($('#arrival', '#departure').val());
-            });
-        </script>
-
-    </body>
+</body>
 </html>
 
 
