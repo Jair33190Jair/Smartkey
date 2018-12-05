@@ -7,46 +7,68 @@ contract Room {
     uint public arrival;
     uint public departure;
     string title;
-    uint public keyCheckin;
-    uint public keyCheckout;
-    uint public text;
-    uint public text2;
-    string name;
-    string nameid;
-    string familynameid;
-    string familyname;
-    string email;
-    string emailid;
+    string public encryptedkey;
+    string public encryptedkeyblockchain;
     uint public a;
-    
-    
     uint256 public price;
     uint public value;
+    bool avaliability;
+    bool bussy;
     
     
-
+    //This is used as a traial of information exchange
     function getValue() constant returns(uint){
         return value;
     }
     function setValue(uint newValue){
         value=newValue;
     }
+
+
+    //Proofs if a key is already assigned to the date and room selected
+        function avaliabilitycheck() payable public {
+        //Assign conditions
+        require(arrival == 0x0);
+        require(departure == 0x0);
+        if (bussy=true){
+        avaliability = true;
+        }
+        else{
+        avaliability = false;
+        }
+    }
+        
     
-    function setValue2(uint text){
-        keyCheckin=text;
+        //Allows the room to be booked 
+    function rentroom() payable public {
+        //Assign conditions
+        //an hotel has been selected
+        require(seller != 0x0);
+        //room is avaliable
+        require(buyer == 0x0);
+        //confirm buyer
+        require(msg.sender != seller);
+        //
+        buyer = msg.sender;
+        //Valid tx.
+        seller.transfer(msg.value);
+        
     }
     
-    function setValue3(uint text2){
-        keyCheckout=text2;
-    }
-    function keyCheckin() constant returns(uint){
-        return keyCheckin;
-    }
-    
-    function keyCheckout() constant returns(uint){
-        return keyCheckout;
+    //Sends encryptedkey to the blockchaiin
+    function setValue3(string encryptedkey){
+        encryptedkeyblockchain=encryptedkey;
+        bussy=true;
     }
     
+    //Returns value of the encryptedkey saved
+    // in the blockchain, this function is called by the  Smartdoor
+    function getValue2() constant returns(string){
+        return encryptedkeyblockchain;
+    }
+    
+ 
+    //Description of the rented room
     function Room () {
         //Seller name?
         seller = msg.sender;
@@ -58,39 +80,7 @@ contract Room {
         //price in wei = 0.5 ETH = 90 CHF
         price = 500000000000000000;
     }    
-    function avaliabilitycheck() payable public {
-        //Assign conditions
-        require(arrival == 0x0);
-        require(departure == 0x0);
-
-        
-    }
-     function idcheck(string name,string nameid) returns (bool){ 
-        return keccak256(name) == keccak256(nameid);
-        if(true){
-            a=1;
-        }
-        if(false){
-            a=0;
-        }
-   }
-        
     
-        
-    function rentroom() payable public {
-        //Assign conditions
-        //an hotel has been selected
-        require(seller != 0x0);
-        //room is avaliable
-        require(buyer == 0x0);
-        //confirm buyer
-        require(msg.sender != seller);
-        //
-        buyer = msg.sender;
-        //Valid trx.
-        seller.transfer(msg.value);
-        
-    }
         
     
 }
